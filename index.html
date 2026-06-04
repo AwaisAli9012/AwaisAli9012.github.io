@@ -614,6 +614,172 @@
       .contact-links { flex-direction: column; align-items: center; gap: 1rem; }
       footer { flex-direction: column; gap: 1rem; text-align: center; }
     }
+
+    /* ── PROJECT MODAL ───────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6,6,10,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal {
+      background: #0f0f17;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      max-width: 780px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      position: relative;
+      transform: translateY(24px);
+      transition: transform 0.3s ease;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(123,110,224,0.3) transparent;
+    }
+    .modal-overlay.active .modal { transform: translateY(0); }
+    .modal-close {
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: flex-end;
+      padding: 1.2rem 1.5rem 0;
+      background: #0f0f17;
+      z-index: 10;
+    }
+    .modal-close button {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close button:hover { border-color: var(--accent); color: var(--accent); }
+    .modal-body { padding: 0 2.5rem 2.5rem; }
+    .modal-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    .modal-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+    .modal-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 1.5rem 0;
+    }
+    .modal-section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+    .modal-desc {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .modal-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .modal-metric {
+      background: rgba(123,110,224,0.07);
+      border: 1px solid rgba(123,110,224,0.15);
+      border-radius: 4px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .modal-metric-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+    .modal-metric-lbl {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+    .modal-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .modal-features li {
+      display: flex;
+      gap: 0.8rem;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .modal-features li::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+    .modal-tech { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+    .modal-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .modal-links a {
+      padding: 0.65rem 1.4rem;
+      border-radius: 2px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .modal-links .link-primary {
+      background: var(--accent);
+      color: #0a0a0f;
+      font-weight: 600;
+    }
+    .modal-links .link-primary:hover { background: #c8b89a; }
+    .modal-links .link-ghost {
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--fg);
+    }
+    .modal-links .link-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    @media (max-width: 600px) {
+      .modal-body { padding: 0 1.2rem 2rem; }
+      .modal-title { font-size: 1.4rem; }
+      .modal-metrics { grid-template-columns: repeat(2, 1fr); }
+    }
+
   </style>
 </head>
 <body>
@@ -745,7 +911,7 @@
     <div class="projects-grid">
 
       <!-- Featured: ASL -->
-      <div class="project-card featured reveal">
+      <div class="project-card featured reveal" onclick="openModal('tpl-asl')" style="cursor:pointer">
         <div>
           <div class="badge">✦ Final Year Project</div>
           <div class="project-tag">Computer Vision · NLP</div>
@@ -777,7 +943,7 @@
       </div>
 
       <!-- Resume Scorer -->
-      <a href="https://github.com/AwaisAli9012/resume-job-matcher" target="_blank" class="project-card reveal">
+      <div class="project-card reveal" onclick="openModal('tpl-resume')" style="cursor:pointer">
         <div class="project-tag">Prompt Engineering · PDF Parsing</div>
         <h3 class="project-title">Resume–Job Match Scorer</h3>
         <p class="project-desc">
@@ -791,10 +957,10 @@
           <span class="tech-tag">PyMuPDF</span>
         </div>
         <span class="project-link">View on GitHub →</span>
-      </a>
+      </div>
 
       <!-- RAG Chatbot -->
-      <a href="https://github.com/AwaisAli9012" target="_blank" class="project-card reveal">
+      <div class="project-card reveal" onclick="openModal('tpl-rag')" style="cursor:pointer">
         <div class="project-tag">RAG · Vector Search</div>
         <h3 class="project-title">RAG Chatbot — PDF Q&A System</h3>
         <p class="project-desc">
@@ -807,10 +973,10 @@
           <span class="tech-tag">Streamlit</span>
         </div>
         <span class="project-link">View on GitHub →</span>
-      </a>
+      </div>
 
       <!-- AI Agent -->
-      <a href="https://github.com/AwaisAli9012" target="_blank" class="project-card reveal">
+      <div class="project-card reveal" onclick="openModal('tpl-agent')" style="cursor:pointer">
         <div class="project-tag">Agentic AI · Tool Routing</div>
         <h3 class="project-title">AI Agent — Intelligent Q&A System</h3>
         <p class="project-desc">
@@ -823,10 +989,10 @@
           <span class="tech-tag">Wikipedia API</span>
         </div>
         <span class="project-link">View on GitHub →</span>
-      </a>
+      </div>
 
       <!-- BERT News Classifier -->
-      <a href="https://github.com/AwaisAli9012/News-Topic-Classifier-Using-BERT" target="_blank" class="project-card reveal">
+      <div class="project-card reveal" onclick="openModal('tpl-bert')" style="cursor:pointer">
         <div class="project-tag">NLP · Transformer · Text Classification</div>
         <h3 class="project-title">News Topic Classifier — BERT</h3>
         <p class="project-desc">
@@ -840,10 +1006,10 @@
           <span class="tech-tag">AG News</span>
         </div>
         <span class="project-link">View on GitHub →</span>
-      </a>
+      </div>
 
       <!-- Hand Gesture -->
-      <a href="https://github.com/AwaisAli9012" target="_blank" class="project-card reveal">
+      <div class="project-card reveal" onclick="openModal('tpl-gesture')" style="cursor:pointer">
         <div class="project-tag">Computer Vision · Real-time</div>
         <h3 class="project-title">Hand Gesture Recognition Menu</h3>
         <p class="project-desc">
@@ -854,7 +1020,7 @@
           <span class="tech-tag">OpenCV</span>
         </div>
         <span class="project-link">View on GitHub →</span>
-      </a>
+      </div>
 
     </div>
   </section>
@@ -971,5 +1137,213 @@
     }, { threshold: 0.1 });
     reveals.forEach(r => observer.observe(r));
   </script>
+
+  <!-- ══ PROJECT MODALS ══════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" id="modal-box">
+      <div class="modal-close"><button onclick="closeAllModals()" aria-label="Close">✕</button></div>
+      <div class="modal-body" id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- DATA: one hidden template per project -->
+  <template id="tpl-asl">
+    <div class="modal-tag">Computer Vision · NLP · Final Year Project</div>
+    <h2 class="modal-title">ASL Sign Language Detection System</h2>
+    <div class="modal-metrics">
+      <div class="modal-metric"><span class="modal-metric-val">83%</span><div class="modal-metric-lbl">Validation Accuracy</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">126</span><div class="modal-metric-lbl">Hand Landmarks</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">4,500</span><div class="modal-metric-lbl">Training Samples</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">23ms</span><div class="modal-metric-lbl">Inference Time</div></div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">About the Project</div>
+    <p class="modal-desc">A real-time American Sign Language detection system that bridges communication between the deaf community and the general public. The pipeline captures live webcam frames, extracts 126 precise hand landmarks per frame using MediaPipe, and classifies them using a custom fully connected neural network trained on 4,500 balanced samples across 15 ASL sign classes. An integrated LLaMA 3.3 language model then generates natural English interpretations from sequences of detected signs.</p>
+    <div class="modal-section-label">Key Features</div>
+    <ul class="modal-features">
+      <li>Real-time landmark extraction at 23ms per frame using MediaPipe Hands</li>
+      <li>Custom FCNN trained from scratch — no pretrained vision backbone</li>
+      <li>Balanced dataset across 15 sign classes from the WLASL benchmark</li>
+      <li>LLaMA 3.3 integration for contextual English sentence generation from signed words</li>
+      <li>Handles varied lighting, hand orientations, and skin tones</li>
+    </ul>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">Tech Stack</div>
+    <div class="modal-tech">
+      <span class="tech-tag">Python</span><span class="tech-tag">TensorFlow</span><span class="tech-tag">MediaPipe</span><span class="tech-tag">OpenCV</span><span class="tech-tag">LLaMA 3.3</span><span class="tech-tag">Groq API</span><span class="tech-tag">NumPy</span>
+    </div>
+    <div class="modal-links">
+      <a href="https://github.com/AwaisAli9012/ASL-Detection-FYP" target="_blank" class="link-primary">View on GitHub ↗</a>
+    </div>
+  </template>
+
+  <template id="tpl-resume">
+    <div class="modal-tag">Prompt Engineering · PDF Parsing · LLM</div>
+    <h2 class="modal-title">Resume–Job Match Scorer</h2>
+    <div class="modal-metrics">
+      <div class="modal-metric"><span class="modal-metric-val">3</span><div class="modal-metric-lbl">Prompt Chains</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">~4s</span><div class="modal-metric-lbl">Processing Time</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">0–100%</span><div class="modal-metric-lbl">Match Score</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">5</span><div class="modal-metric-lbl">Rewritten Bullets</div></div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">About the Project</div>
+    <p class="modal-desc">An AI-powered tool that parses your resume PDF and scores it against any job description — returning a match percentage, identified skill gaps, and 5 ATS-optimised bullet point rewrites tailored to that specific role. Built with a 3-chain prompt engineering architecture where each chain has a focused task: extract, score, then rewrite.</p>
+    <div class="modal-section-label">How It Works</div>
+    <ul class="modal-features">
+      <li>Chain 1 — Extracts structured entities from both resume and job description (skills, experience, responsibilities)</li>
+      <li>Chain 2 — Senior HR recruiter persona scores the match and identifies strengths and gaps</li>
+      <li>Chain 3 — Resume coach persona rewrites 5 bullet points optimised for that exact role</li>
+      <li>PyMuPDF handles PDF parsing — extracts raw text regardless of formatting</li>
+      <li>Full Streamlit UI with dark editorial design and animated score display</li>
+    </ul>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">Tech Stack</div>
+    <div class="modal-tech">
+      <span class="tech-tag">Python</span><span class="tech-tag">Streamlit</span><span class="tech-tag">LLaMA 3.3 70B</span><span class="tech-tag">Groq API</span><span class="tech-tag">PyMuPDF</span><span class="tech-tag">Prompt Engineering</span>
+    </div>
+    <div class="modal-links">
+      <a href="https://github.com/AwaisAli9012/resume-job-matcher" target="_blank" class="link-primary">View on GitHub ↗</a>
+    </div>
+  </template>
+
+  <template id="tpl-rag">
+    <div class="modal-tag">RAG · Vector Search · NLP</div>
+    <h2 class="modal-title">RAG Chatbot — PDF Q&amp;A System</h2>
+    <div class="modal-metrics">
+      <div class="modal-metric"><span class="modal-metric-val">FAISS</span><div class="modal-metric-lbl">Vector Index</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">384d</span><div class="modal-metric-lbl">Embedding Dims</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">0</span><div class="modal-metric-lbl">LangChain Deps</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">Any PDF</span><div class="modal-metric-lbl">Input Support</div></div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">About the Project</div>
+    <p class="modal-desc">A full Retrieval-Augmented Generation pipeline built entirely from scratch — no LangChain abstractions. Upload any PDF, and the system splits it into chunks, embeds them using sentence-transformers, stores them in a FAISS vector index, and answers natural language questions by retrieving the most relevant chunks and passing them to LLaMA 3.1 as context.</p>
+    <div class="modal-section-label">Key Features</div>
+    <ul class="modal-features">
+      <li>PDF chunking with configurable overlap to preserve context across splits</li>
+      <li>Semantic embeddings via sentence-transformers (all-MiniLM-L6-v2)</li>
+      <li>FAISS cosine similarity search for fast top-k chunk retrieval</li>
+      <li>LLaMA 3.1 generates grounded answers with retrieved context as source</li>
+      <li>Built without LangChain — every pipeline stage written manually for full understanding</li>
+    </ul>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">Tech Stack</div>
+    <div class="modal-tech">
+      <span class="tech-tag">Python</span><span class="tech-tag">FAISS</span><span class="tech-tag">sentence-transformers</span><span class="tech-tag">LLaMA 3.1</span><span class="tech-tag">Groq API</span><span class="tech-tag">Streamlit</span><span class="tech-tag">PyMuPDF</span>
+    </div>
+    <div class="modal-links">
+      <a href="https://github.com/AwaisAli9012" target="_blank" class="link-primary">View on GitHub ↗</a>
+    </div>
+  </template>
+
+  <template id="tpl-agent">
+    <div class="modal-tag">Agentic AI · Tool Routing · LLM</div>
+    <h2 class="modal-title">AI Agent — Intelligent Q&amp;A System</h2>
+    <div class="modal-metrics">
+      <div class="modal-metric"><span class="modal-metric-val">3</span><div class="modal-metric-lbl">Tool Integrations</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">0</span><div class="modal-metric-lbl">LangChain Deps</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">Auto</span><div class="modal-metric-lbl">Tool Selection</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">LLaMA 3.3</span><div class="modal-metric-lbl">Core Model</div></div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">About the Project</div>
+    <p class="modal-desc">A conversational AI agent that autonomously decides which tool to use based on the user's query — web search for current events, Wikipedia for factual lookups, or a calculator for math. The routing logic is built from scratch without any agent framework, demonstrating a clear understanding of how agentic systems work under the hood.</p>
+    <div class="modal-section-label">Key Features</div>
+    <ul class="modal-features">
+      <li>Intent classification — agent reads the query and decides the right tool automatically</li>
+      <li>DuckDuckGo API integration for real-time web search results</li>
+      <li>Wikipedia API for structured factual knowledge retrieval</li>
+      <li>Built-in calculator for mathematical and unit conversion queries</li>
+      <li>Zero framework dependencies — custom tool routing written entirely from scratch</li>
+    </ul>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">Tech Stack</div>
+    <div class="modal-tech">
+      <span class="tech-tag">Python</span><span class="tech-tag">LLaMA 3.3</span><span class="tech-tag">Groq API</span><span class="tech-tag">DuckDuckGo API</span><span class="tech-tag">Wikipedia API</span>
+    </div>
+    <div class="modal-links">
+      <a href="https://github.com/AwaisAli9012" target="_blank" class="link-primary">View on GitHub ↗</a>
+    </div>
+  </template>
+
+  <template id="tpl-bert">
+    <div class="modal-tag">NLP · Transformer · Text Classification</div>
+    <h2 class="modal-title">News Topic Classifier — BERT</h2>
+    <div class="modal-metrics">
+      <div class="modal-metric"><span class="modal-metric-val">120k</span><div class="modal-metric-lbl">Training Samples</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">4</span><div class="modal-metric-lbl">Classes</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">BERT</span><div class="modal-metric-lbl">Architecture</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">AG News</span><div class="modal-metric-lbl">Dataset</div></div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">About the Project</div>
+    <p class="modal-desc">Fine-tuned a BERT transformer model on the AG News benchmark dataset to classify news articles into 4 categories: World, Sports, Business, and Science/Technology. The project covers the full NLP pipeline from tokenisation to training loop to evaluation — built with HuggingFace Transformers and PyTorch.</p>
+    <div class="modal-section-label">Key Features</div>
+    <ul class="modal-features">
+      <li>Fine-tuned bert-base-uncased on 120,000 AG News training samples</li>
+      <li>HuggingFace Transformers pipeline — tokenisation, attention masks, special tokens</li>
+      <li>Custom PyTorch training loop with learning rate scheduling</li>
+      <li>Evaluated on 7,600 test samples with per-class precision and recall</li>
+      <li>4-class classification: World, Sports, Business, Sci/Tech</li>
+    </ul>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">Tech Stack</div>
+    <div class="modal-tech">
+      <span class="tech-tag">Python</span><span class="tech-tag">BERT</span><span class="tech-tag">HuggingFace Transformers</span><span class="tech-tag">PyTorch</span><span class="tech-tag">AG News Dataset</span><span class="tech-tag">scikit-learn</span>
+    </div>
+    <div class="modal-links">
+      <a href="https://github.com/AwaisAli9012/News-Topic-Classifier-Using-BERT" target="_blank" class="link-primary">View on GitHub ↗</a>
+    </div>
+  </template>
+
+  <template id="tpl-gesture">
+    <div class="modal-tag">Computer Vision · Real-time · OpenCV</div>
+    <h2 class="modal-title">Hand Gesture Recognition Menu</h2>
+    <div class="modal-metrics">
+      <div class="modal-metric"><span class="modal-metric-val">Real-time</span><div class="modal-metric-lbl">Processing</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">OpenCV</span><div class="modal-metric-lbl">Framework</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">Low</span><div class="modal-metric-lbl">Latency</div></div>
+      <div class="modal-metric"><span class="modal-metric-val">Robust</span><div class="modal-metric-lbl">Lighting Tolerance</div></div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">About the Project</div>
+    <p class="modal-desc">A real-time hand gesture recognition system that controls a menu interface using only hand movements captured via webcam. The detection pipeline was optimised for low-latency response, handling varied lighting conditions and different hand orientations without degrading accuracy.</p>
+    <div class="modal-section-label">Key Features</div>
+    <ul class="modal-features">
+      <li>Real-time webcam gesture capture and processing with OpenCV</li>
+      <li>Menu navigation controlled entirely through hand gestures — no keyboard or mouse</li>
+      <li>Pipeline optimised for low latency across different environments</li>
+      <li>Robust to varied lighting, distances, and hand orientations</li>
+    </ul>
+    <div class="modal-divider"></div>
+    <div class="modal-section-label">Tech Stack</div>
+    <div class="modal-tech">
+      <span class="tech-tag">Python</span><span class="tech-tag">OpenCV</span><span class="tech-tag">MediaPipe</span><span class="tech-tag">NumPy</span>
+    </div>
+    <div class="modal-links">
+      <a href="https://github.com/AwaisAli9012" target="_blank" class="link-primary">View on GitHub ↗</a>
+    </div>
+  </template>
+
+
+  <script>
+    function openModal(tplId) {
+      const tpl = document.getElementById(tplId);
+      if (!tpl) return;
+      document.getElementById('modal-content').innerHTML = tpl.innerHTML;
+      document.getElementById('modal-overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeAllModals() {
+      document.getElementById('modal-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function closeModal(e) {
+      if (e.target === document.getElementById('modal-overlay')) closeAllModals();
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllModals(); });
+  </script>
+
 </body>
 </html>
